@@ -1,6 +1,9 @@
-
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+
+import guideData from "./data/guideData";
+
+import moreData from "./data/moreData";
 
 import "./Navbar.css";
 
@@ -14,12 +17,12 @@ export default function Navbar() {
   const [isFacultyLoggedIn, setIsFacultyLoggedIn] = useState(
     Boolean(
       localStorage.getItem("facultyToken") &&
-      localStorage.getItem("facultyRole") === "faculty"
-    )
+      localStorage.getItem("facultyRole") === "faculty",
+    ),
   );
 
   const [facultyBranch, setFacultyBranch] = useState(
-    localStorage.getItem("facultyBranch") || ""
+    localStorage.getItem("facultyBranch") || "",
   );
 
   useEffect(() => {
@@ -49,16 +52,24 @@ export default function Navbar() {
   ];
 
   const guideLinks = [
-    { label: "Revaluation Guide", href: "/guide/revaluation" },
-    { label: "SGPA/CGPA Guide", href: "/guide/sgpa-cgpa" },
-    { label: "Internship Guide", href: "/guide/internship" },
+    {
+      label: "Revaluation Guide",
+      url: guideData.revaluation,
+    },
+    {
+      label: "SGPA/CGPA Guide",
+      url: guideData.sgpaCgpa,
+    },
+    {
+      label: "Internship Guide",
+      url: guideData.internship,
+    },
   ];
 
   const moreLinks = [
-    { label: "VTU Scheme", href: "/vtu-scheme" },
-    { label: "Calendar", href: "/academic-calendar" },
-    { label: "Activity", href: "/activity" },
-    { label: "Notice Board", href: "/notice-board" },
+    { label: "Academic Calendar", url: moreData.academicCalendar },
+    { label: "Activity", url: moreData.activity },
+    { label: "Notice Board", url: moreData.noticeBoard },
   ];
 
   function closeMenus() {
@@ -82,7 +93,6 @@ export default function Navbar() {
   return (
     <header className="rh-header">
       <nav className="rh-navbar" aria-label="Main navigation">
-
         {/* Logo */}
         <Link className="rh-brand" to="/" onClick={closeMenus}>
           <span className="rh-brand-icon" aria-hidden="true">
@@ -108,7 +118,6 @@ export default function Navbar() {
 
         {/* Navigation links */}
         <div className={`rh-nav-links ${menuOpen ? "is-open" : ""}`}>
-
           {navLinks.map((link) => (
             <Link
               key={link.label}
@@ -120,6 +129,7 @@ export default function Navbar() {
             </Link>
           ))}
 
+          {/* Guide dropdown */}
           {/* Guide dropdown */}
           <div className="rh-more">
             <button
@@ -137,16 +147,28 @@ export default function Navbar() {
 
             {guideOpen && (
               <div className="rh-dropdown">
-                {guideLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    to={link.href}
-                    className="rh-dropdown-link"
-                    onClick={closeMenus}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {guideLinks.map((link) =>
+                  link.url ? (
+                    <a
+                      key={link.label}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rh-dropdown-link"
+                      onClick={closeMenus}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <span
+                      key={link.label}
+                      className="rh-dropdown-link"
+                      style={{ opacity: 0.5, cursor: "not-allowed" }}
+                    >
+                      {link.label} (Coming Soon)
+                    </span>
+                  ),
+                )}
               </div>
             )}
           </div>
@@ -168,16 +190,28 @@ export default function Navbar() {
 
             {moreOpen && (
               <div className="rh-dropdown">
-                {moreLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    to={link.href}
-                    className="rh-dropdown-link"
-                    onClick={closeMenus}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
+                {moreLinks.map((link) =>
+                  link.url ? (
+                    <a
+                      key={link.label}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="rh-dropdown-link"
+                      onClick={closeMenus}
+                    >
+                      {link.label}
+                    </a>
+                  ) : (
+                    <span
+                      key={link.label}
+                      className="rh-dropdown-link"
+                      style={{ opacity: 0.5, cursor: "not-allowed" }}
+                    >
+                      {link.label} (Coming Soon)
+                    </span>
+                  ),
+                )}
               </div>
             )}
           </div>
@@ -185,15 +219,9 @@ export default function Navbar() {
           {/* Faculty navigation */}
           {isFacultyLoggedIn ? (
             <>
-              <span className="rh-nav-link">
-                {facultyBranch} Faculty
-              </span>
+              <span className="rh-nav-link">{facultyBranch} Faculty</span>
 
-              <Link
-                className="rh-nav-link"
-                to="/upload"
-                onClick={closeMenus}
-              >
+              <Link className="rh-nav-link" to="/upload" onClick={closeMenus}>
                 Upload Notes
               </Link>
 
@@ -214,7 +242,6 @@ export default function Navbar() {
               Faculty Login
             </Link>
           )}
-
         </div>
       </nav>
     </header>

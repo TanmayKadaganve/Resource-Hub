@@ -9,12 +9,11 @@ import AcademicNavigation from "../components/AcademicNavigation";
 import PDFReader from "../components/PDFReader";
 
 import ResourceList from "../components/ResourceList";
+import API from "../api";
 
 // import Footer from "../components/Footer";
 
 import "../App.css";
-
-const API = "http://localhost:5000/api";
 
 function HomePage() {
     

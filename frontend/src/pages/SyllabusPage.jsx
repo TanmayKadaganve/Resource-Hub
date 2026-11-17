@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "../Navbar";
 import syllabusData from "../data/syllabusData";
@@ -7,19 +6,15 @@ function SyllabusPage() {
   const [selectedScheme, setSelectedScheme] = useState("");
   const [expandedBranch, setExpandedBranch] = useState("");
 
-  const branches = selectedScheme
-    ? syllabusData[selectedScheme] || []
-    : [];
+  const branches = selectedScheme ? syllabusData[selectedScheme] || [] : [];
 
   const handleSchemeChange = (scheme) => {
     setSelectedScheme(scheme);
     setExpandedBranch("");
   };
 
-  const toggleSpecificPDFs = (branch) => {
-    setExpandedBranch((previous) =>
-      previous === branch ? "" : branch
-    );
+  const toggleSemesterSyllabus = (branch) => {
+    setExpandedBranch((previous) => (previous === branch ? "" : branch));
   };
 
   return (
@@ -28,14 +23,13 @@ function SyllabusPage() {
 
       <main className="syllabus-page">
         <div className="syllabus-container">
-
           {/* Page Heading */}
           <div className="syllabus-header">
             <p className="eyebrow">RESOURCE HUB</p>
             <h1>Engineering Syllabus</h1>
             <p>
-              Access branch-wise syllabus documents and
-              year and stream-specific PDFs.
+              Access branch-wise syllabus documents and year and stream-specific
+              PDFs.
             </p>
           </div>
 
@@ -74,97 +68,92 @@ function SyllabusPage() {
               </div>
 
               <div className="syllabus-card-grid">
-                {branches.map((item) => (
-                  <article
-                    className="syllabus-card"
-                    key={item.branch}
-                  >
-                    <div className="syllabus-card-content">
-                      <span className="syllabus-badge">
-                        CURRICULUM
-                      </span>
+                {branches.map((item) => {
+                  const branchKey = `${selectedScheme}-${item.branch}`;
 
-                      <h3>{item.branch}</h3>
-                      <p>{item.description}</p>
-                    </div>
+                  return (
+                    <article className="syllabus-card" key={item.branch}>
+                      <div className="syllabus-card-content">
+                        <span className="syllabus-badge">CURRICULUM</span>
 
-                    <div className="syllabus-card-actions">
+                        <h3>{item.branch}</h3>
+                        <p>{item.description}</p>
+                      </div>
 
-                      {/* Main Syllabus */}
-                      {item.mainSyllabus ? (
-                        <a
-                          className="syllabus-main-button"
-                          href={item.mainSyllabus}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          ↓ View Main Syllabus
-                        </a>
-                      ) : (
+                      <div className="syllabus-card-actions">
+                        {/* Main Syllabus */}
+                        {item.mainSyllabus ? (
+                          <a
+                            className="syllabus-main-button"
+                            href={item.mainSyllabus}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                          >
+                            ↓ View Main Syllabus
+                          </a>
+                        ) : (
+                          <button
+                            type="button"
+                            className="syllabus-main-button"
+                            disabled
+                          >
+                            Main Syllabus Not Available
+                          </button>
+                        )}
+
+                        {/* Semester-wise Syllabus Dropdown Button */}
                         <button
                           type="button"
-                          className="syllabus-main-button"
-                          disabled
+                          className="syllabus-dropdown-button"
+                          onClick={() => toggleSemesterSyllabus(branchKey)}
+                          aria-expanded={expandedBranch === branchKey}
                         >
-                          Main Syllabus Not Available
+                          View Semester-wise Syllabus
+                          <span>
+                            {expandedBranch === branchKey ? "⌃" : "⌄"}
+                          </span>
                         </button>
-                      )}
 
-                      {/* Specific PDFs Dropdown */}
-                      {/* <button
-                        type="button"
-                        className="syllabus-dropdown-button"
-                        onClick={() =>
-                          toggleSpecificPDFs(item.branch)
-                        }
-                        aria-expanded={
-                          expandedBranch === item.branch
-                        }
-                      >
-                        Year & Stream Specific PDFs
-                        <span>
-                          {expandedBranch === item.branch ? "▴" : "▾"}
-                        </span>
-                      </button> */}
-
-                      {expandedBranch === item.branch && (
-                        <div className="syllabus-specific-list">
-                          {item.specificPDFs?.length > 0 ? (
-                            item.specificPDFs.map((pdf, index) => (
-                              <a
-                                key={`${pdf.title}-${index}`}
-                                href={pdf.url || undefined}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={`syllabus-specific-link ${
-                                  !pdf.url ? "disabled" : ""
-                                }`}
-                                onClick={(event) => {
-                                  if (!pdf.url) {
-                                    event.preventDefault();
-                                  }
-                                }}
-                                aria-disabled={!pdf.url}
-                              >
-                                <span>{pdf.title}</span>
-                                <span>↗</span>
-                              </a>
-                            ))
-                          ) : (
-                            <p className="syllabus-empty-message">
-                              No specific PDFs added yet.
-                            </p>
-                          )}
-                        </div>
-                      )}
-
-                    </div>
-                  </article>
-                ))}
+                        {/* Floating Semester Options */}
+                        {expandedBranch === branchKey && (
+                          <div className="semester-dropdown-menu">
+                            {item.semesterSyllabus?.length > 0 ? (
+                              item.semesterSyllabus.map((semester) => (
+                                <a
+                                  key={semester.semester}
+                                  href={semester.url || undefined}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className={`semester-dropdown-item ${
+                                    !semester.url ? "disabled" : ""
+                                  }`}
+                                  onClick={(event) => {
+                                    if (!semester.url) {
+                                      event.preventDefault();
+                                    }
+                                  }}
+                                  aria-disabled={!semester.url}
+                                >
+                                  <span>Semester {semester.semester}</span>
+                                  <span className="semester-download-icon">
+                                    ↓
+                                  </span>
+                                </a>
+                              ))
+                            ) : (
+                              <p className="syllabus-empty-message">
+                                No semester-wise syllabus available.
+                              </p>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
             </section>
           )}
-
         </div>
       </main>
     </>

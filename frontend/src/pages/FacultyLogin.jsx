@@ -1,5 +1,6 @@
 
 import { useState } from "react";
+import API from "../api";
 import "./FacultyLogin.css";
 
 const branches = [
@@ -25,7 +26,7 @@ function FacultyLogin() {
 
     try {
       const response = await fetch(
-        "http://localhost:5000/api/faculty/login",
+        `${API}/faculty/login`,
         {
           method: "POST",
           headers: {

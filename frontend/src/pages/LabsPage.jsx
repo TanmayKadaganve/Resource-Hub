@@ -1,9 +1,10 @@
 
 import { useEffect, useState } from "react";
 import Navbar from "../Navbar";
+import API from "../api";
 import "./LabsPage.css";
 
-const API_URL = "http://localhost:5000/api/lab-resources";
+const API_URL = `${API}/lab-resources`;
 
 const branches = [
   { name: "FIRST YEAR", label: "First Year", short: "FY" },

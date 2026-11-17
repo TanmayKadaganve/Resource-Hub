@@ -15,7 +15,17 @@ const syllabusData = {
       description: "Computer Science & Engineering",
       mainSyllabus: "https://drive.google.com/file/d/1-b3z_93uUQpo93JEsqTWBftQ4fNO9qoC/view?usp=sharing",
     //   specificPDFs: [],
-    },
+    semesterSyllabus: [
+    { semester: 1, url: "" },
+    { semester: 2, url: "" },
+    { semester: 3, url: "" },
+    { semester: 4, url: "" },
+    { semester: 5, url: "" },
+    { semester: 6, url: "" },
+    { semester: 7, url: "" },
+    { semester: 8, url: "" }
+  ]
+},
     {
       branch: "AIML",
       description: "Artificial Intelligence & Machine Learning",

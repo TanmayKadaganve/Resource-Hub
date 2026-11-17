@@ -5,8 +5,7 @@ import QuestionPaperNavigation from "../components/QuestionPaperNavigation";
 import QuestionPaperList from "../components/QuestionPaperList";
 import PDFReader from "../components/PDFReader";
 import Navbar from "../Navbar";
-
-const API = "http://localhost:5000/api";
+import API from "../api";
 
 function ModelPapersPage() {
   const [scheme, setScheme] = useState("2025");

@@ -1,5 +1,3 @@
-import dns from "node:dns";
-
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
@@ -13,22 +11,36 @@ import labResourcesRouter from "./routes/LabResources.js";
 
 
 
-dns.setServers(["8.8.8.8", "8.8.4.4"]);
-
-
 dotenv.config();
 const app = express();
 
 
 
+const allowedOrigins = (process.env.FRONTEND_URL || "http://localhost:5173")
+  .split(",")
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || "http://localhost:5173",
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(null, false);
+  },
 }));
 
 app.use(express.json({ limit: "1mb" }));
 
 async function startServer() {
   try {
+    if (!process.env.MONGODB) {
+      throw new Error("MONGODB environment variable is required.");
+    }
+    if (!process.env.JWT_SECRET) {
+      throw new Error("JWT_SECRET environment variable is required.");
+    }
+
     await mongoose.connect(process.env.MONGODB);
 
     console.log("MongoDB connected successfully");

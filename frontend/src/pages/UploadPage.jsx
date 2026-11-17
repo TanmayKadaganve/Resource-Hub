@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { getSubjects } from "../data/curriculum";
+import API from "../api";
 import "./UploadPage.css";
 
 const resourceTypes = ["Notes", "Model QP", "PYQ", "Lab"];
@@ -62,10 +63,10 @@ function UploadPage() {
       [name]: value,
       ...(name === "scheme" || name === "semester"
         ? {
-            subject: "",
-            module: "",
-            questionPaperYear: "",
-          }
+          subject: "",
+          module: "",
+          questionPaperYear: "",
+        }
         : {}),
     }));
 
@@ -145,7 +146,7 @@ function UploadPage() {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/lab-resources",
+        `${API}/lab-resources`,
         {
           method: "POST",
           headers: {
@@ -252,7 +253,7 @@ function UploadPage() {
       setLoading(true);
 
       const response = await fetch(
-        "http://localhost:5000/api/resources/upload",
+        `${API}/resources/upload`,
         {
           method: "POST",
           headers: {
@@ -321,9 +322,8 @@ function UploadPage() {
                 <button
                   key={type}
                   type="button"
-                  className={`resource-category-button ${
-                    resourceType === type ? "active" : ""
-                  }`}
+                  className={`resource-category-button ${resourceType === type ? "active" : ""
+                    }`}
                   onClick={() => handleCategoryChange(type)}
                   aria-pressed={resourceType === type}
                 >
@@ -525,8 +525,8 @@ function UploadPage() {
                         {!formData.semester
                           ? "Select semester first"
                           : subjects.length === 0
-                          ? "No subjects available"
-                          : "Select Subject"}
+                            ? "No subjects available"
+                            : "Select Subject"}
                       </option>
 
                       {subjects.map((subject) => (
