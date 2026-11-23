@@ -1,0 +1,577 @@
+.calc-page {
+    min-height: 80vh;
+    padding: 48px 20px 72px;
+    background: #f5f8fc;
+}
+
+.grade-report {
+    margin-top: 24px;
+    padding: 28px;
+    border: 2px solid #f58a3c;
+    border-radius: 18px;
+    background: #fff;
+    color: #182230;
+}
+
+.report-university {
+    text-align: center;
+    font: 700 1.25rem Georgia, serif;
+}
+
+.report-subtitle,
+.report-degree {
+    margin-top: 5px;
+    text-align: center;
+    color: #475467;
+}
+
+.report-degree {
+    font-style: italic;
+}
+
+.grade-report>h2 {
+    margin: 20px 0 28px;
+    padding-top: 14px;
+    border-top: 1px solid #d0d5dd;
+    text-align: center;
+    color: #e66a1d;
+}
+
+.report-meta {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 22px;
+    margin-bottom: 22px;
+}
+
+.report-meta>div {
+    display: grid;
+    grid-template-columns: 110px 1fr;
+    gap: 8px;
+}
+
+.report-table-wrap {
+    overflow-x: auto;
+}
+
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: .78rem;
+}
+
+.report-table th {
+    padding: 10px 7px;
+    color: white;
+    background: #17994a;
+    text-align: center;
+}
+
+.report-table td {
+    padding: 9px 7px;
+    border: 1px solid #d0d5dd;
+    text-align: center;
+}
+
+.report-table td:nth-child(3) {
+    min-width: 180px;
+    text-align: left;
+}
+
+.report-total {
+    background: #f2f4f7;
+    font-weight: 800;
+}
+
+.report-summary {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 18px;
+    margin-top: 24px;
+    padding: 18px;
+    border: 2px solid #f58a3c;
+    border-radius: 12px;
+    background: #fff9f2;
+}
+
+.report-summary>div {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+}
+
+.report-summary b {
+    color: #e66a1d;
+    font-size: 1.2rem;
+}
+
+.report-status {
+    flex-direction: column;
+    align-items: flex-start !important;
+}
+
+.report-status b {
+    color: #b42318;
+}
+
+.report-download {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.report-download span,
+.report-disclaimer {
+    color: #667085;
+    font-size: .8rem;
+}
+
+.report-disclaimer {
+    margin-top: 24px;
+    padding: 10px;
+    border: 1px solid #fda29b;
+    border-radius: 8px;
+    color: #b42318;
+}
+
+.report-signatures {
+    display: flex;
+    justify-content: space-between;
+    margin: 54px 20px 12px;
+    color: #182230;
+    font-weight: 700;
+}
+
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 10mm;
+    }
+
+    body * {
+        visibility: hidden !important;
+    }
+
+    .grade-report,
+    .grade-report * {
+        visibility: visible !important;
+    }
+
+    .grade-report {
+        position: absolute;
+        inset: 0;
+        margin: 0;
+        padding: 12px;
+        border: 1px solid #f58a3c;
+        box-shadow: none;
+    }
+
+    .report-download {
+        display: none !important;
+    }
+
+    .report-table {
+        font-size: 7pt;
+    }
+
+    .report-table th,
+    .report-table td {
+        padding: 5px 3px;
+    }
+
+    .report-table td:nth-child(3) {
+        min-width: 0;
+    }
+}
+
+.calc-wrap {
+    width: min(1060px, 100%);
+    margin: 0 auto;
+}
+
+.calc-header {
+    margin: 0 auto 28px;
+    text-align: center;
+}
+
+.calc-kicker {
+    color: #1769aa;
+    font-size: .75rem;
+    font-weight: 800;
+    letter-spacing: .14em;
+}
+
+.calc-header h1 {
+    margin: 10px 0;
+    color: #102a56;
+    font-size: clamp(2rem, 4vw, 2.8rem);
+}
+
+.calc-header p,
+.calc-section-title p {
+    color: #667085;
+}
+
+.calc-tabs {
+    display: flex;
+    gap: 8px;
+    width: fit-content;
+    margin: 0 auto 20px;
+    padding: 5px;
+    background: #e9eff7;
+    border-radius: 14px;
+}
+
+.calc-tabs button {
+    border: 0;
+    border-radius: 10px;
+    padding: 11px 18px;
+    color: #475467;
+    background: transparent;
+    font-weight: 700;
+}
+
+.calc-tabs button.active {
+    color: #12345a;
+    background: white;
+    box-shadow: 0 2px 8px #102a5615;
+}
+
+.calc-card,
+.calc-explainer {
+    padding: clamp(18px, 4vw, 32px);
+    border: 1px solid #d8e2f0;
+    border-radius: 20px;
+    background: white;
+    box-shadow: 0 12px 32px #102a5608;
+}
+
+.calc-section+.calc-section {
+    margin-top: 30px;
+    padding-top: 28px;
+    border-top: 1px solid #e6edf5;
+}
+
+.calc-section-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.calc-section-title>span {
+    display: grid;
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+    place-items: center;
+    border-radius: 12px;
+    color: #1769aa;
+    background: #edf6ff;
+    font-size: .78rem;
+    font-weight: 800;
+}
+
+.calc-section-title h2 {
+    margin: 0 0 4px;
+    color: #102a56;
+    font-size: 1.2rem;
+}
+
+.calc-section-title p {
+    margin: 0;
+    font-size: .9rem;
+}
+
+.calc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.calc-grid label,
+.course-card label {
+    display: grid;
+    gap: 7px;
+    color: #344054;
+    font-size: .86rem;
+    font-weight: 700;
+}
+
+.calc-grid input,
+.calc-grid select,
+.course-card input,
+.cgpa-row input {
+    width: 100%;
+    min-height: 44px;
+    border: 1px solid #cfd9e6;
+    border-radius: 10px;
+    padding: 9px 11px;
+    color: #172b4d;
+    background: white;
+}
+
+.calc-notice {
+    margin: 18px 0 0;
+    padding: 12px 14px;
+    border-radius: 10px;
+    color: #344054;
+    background: #f3f7fc;
+    font-size: .88rem;
+    line-height: 1.55;
+}
+
+.calc-notice.provisional {
+    color: #78450b;
+    background: #fff7e8;
+}
+
+.calc-notice.warning {
+    color: #7a4200;
+    background: #fff7e8;
+}
+
+.course-list {
+    display: grid;
+    gap: 10px;
+}
+
+.course-card {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) 120px 120px;
+    align-items: center;
+    gap: 14px;
+    padding: 15px;
+    border: 1px solid #e3eaf2;
+    border-radius: 14px;
+    background: #fbfdff;
+}
+
+.course-info h3 {
+    margin: 5px 0;
+    color: #182f55;
+    font-size: .98rem;
+}
+
+.course-code {
+    color: #1769aa;
+    font-size: .7rem;
+    font-weight: 800;
+    letter-spacing: .08em;
+}
+
+.course-credit {
+    color: #667085;
+    font-size: .78rem;
+}
+
+.calc-actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 22px;
+}
+
+.calc-submit {
+    min-height: 48px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 12px;
+    color: white;
+    background: #1769aa;
+    font-weight: 800;
+}
+
+.calc-submit:hover:not(:disabled) {
+    background: #10568e;
+}
+
+.calc-submit:disabled {
+    cursor: not-allowed;
+    opacity: .48;
+}
+
+.calc-actions>span {
+    color: #667085;
+    font-size: .78rem;
+}
+
+.calc-error {
+    margin: 18px 0 0;
+    color: #b42318;
+    font-weight: 700;
+}
+
+.calc-result {
+    margin-top: 22px;
+    padding: 22px;
+    border-radius: 16px;
+    color: white;
+    background: linear-gradient(130deg, #102a56, #1769aa);
+}
+
+.result-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    align-items: center;
+}
+
+.result-top span,
+.result-top small {
+    display: block;
+    color: #d5e8ff;
+    font-size: .74rem;
+}
+
+.result-top h2 {
+    margin: 4px 0 0;
+    font-size: 2.6rem;
+}
+
+.result-top strong {
+    display: block;
+    margin: 5px 0;
+    font-size: 1.12rem;
+}
+
+.result-metrics {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-top: 20px;
+}
+
+.result-metrics>div {
+    padding: 13px;
+    border: 1px solid #ffffff30;
+    border-radius: 12px;
+    background: #ffffff10;
+}
+
+.result-metrics span,
+.result-metrics strong {
+    display: block;
+}
+
+.result-metrics span {
+    color: #d5e8ff;
+    font-size: .75rem;
+}
+
+.result-metrics strong {
+    margin-top: 5px;
+    font-size: 1.15rem;
+}
+
+.calc-disclaimer {
+    margin: 18px 0 0;
+    color: #e3efff;
+    font-size: .78rem;
+    line-height: 1.5;
+}
+
+.cgpa-grid {
+    display: grid;
+    gap: 8px;
+}
+
+.cgpa-head,
+.cgpa-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    align-items: center;
+}
+
+.cgpa-head {
+    color: #667085;
+    font-size: .78rem;
+    font-weight: 700;
+}
+
+.cgpa-row {
+    padding: 8px 0;
+    border-top: 1px solid #edf1f6;
+}
+
+.cgpa-row strong {
+    color: #344054;
+    font-size: .9rem;
+}
+
+.calc-explainer {
+    margin-top: 18px;
+}
+
+.calc-explainer h2 {
+    margin: 0 0 12px;
+    color: #102a56;
+    font-size: 1.15rem;
+}
+
+.calc-explainer p {
+    color: #475467;
+    font-size: .88rem;
+    line-height: 1.6;
+}
+
+.calc-explainer .calc-note-small {
+    padding-top: 12px;
+    border-top: 1px solid #e6edf5;
+    color: #667085;
+    font-size: .8rem;
+}
+
+@media (max-width: 700px) {
+    .calc-page {
+        padding: 30px 14px 48px;
+    }
+
+    .calc-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .course-card {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .course-info {
+        grid-column: 1 / -1;
+    }
+
+    .cgpa-head,
+    .cgpa-row {
+        grid-template-columns: .8fr 1fr 1.2fr;
+        gap: 7px;
+    }
+
+    .cgpa-head {
+        font-size: .66rem;
+    }
+
+    .cgpa-row strong {
+        font-size: .75rem;
+    }
+
+    .cgpa-row input {
+        padding: 8px 5px;
+        font-size: .9rem;
+    }
+
+    .result-top {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .result-metrics {
+        grid-template-columns: 1fr;
+    }
+
+    .calc-actions {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}

@@ -12,6 +12,8 @@ import SyllabusPage from "./pages/SyllabusPage";
 
 import LabsPage from "./pages/LabsPage";
 
+import CalculatorPage from "./pages/CalculatorPage";
+
 function FacultyProtectedRoute({ children }) {
   const token = localStorage.getItem("facultyToken");
   const role = localStorage.getItem("facultyRole");
@@ -81,6 +83,16 @@ function App() {
           element={
             <>
               <SyllabusPage />
+              <Footer />
+            </>
+          }
+        />
+
+         <Route
+          path="/calculator"
+          element={
+            <>
+              <CalculatorPage />
               <Footer />
             </>
           }
