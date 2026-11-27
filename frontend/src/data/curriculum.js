@@ -39,10 +39,13 @@ const curriculum = {
         makeSubject("Digital Design & Computer Organization", "BCS302", 4),
         makeSubject("Operating Systems", "BCS303", 4),
         makeSubject("Data Structures and Applications", "BCS304", 3),
-        makeSubject("Object Oriented Programming with JAVA", "BCS306-A", 3),
-        makeSubject("Yoga", "BYOK359", 1),
         makeSubject("Data Structures Lab", "BCSL305", 1),
-        makeSubject("Social Connect and Responsibility", "BSCK307", 1),
+        makeSubject("Social Connection and Responsibility", "BSCK307", 1),
+        makeSubject("Physical Education", "BPEK359", 1),
+        makeSubject("Object Oriented Programming with JAVA", "BCS306A", 3),
+        makeSubject("Data Analytics with Excel", "BCS358A", 1),
+        
+        
       ],
       4: [
         makeSubject("Analysis & Design of Algorithms", "BCS401", 4),
