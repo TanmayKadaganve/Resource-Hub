@@ -16,7 +16,6 @@ function ResourceList({
   filteredResources,
   loading,
   error,
-  setSelectedPDF,
 }) {
   const facultyToken = localStorage.getItem("facultyToken");
   const facultyRole = localStorage.getItem("facultyRole");
@@ -150,12 +149,14 @@ function ResourceList({
             </div>
 
             <div className="resource-actions">
-              <button
+              <a
                 className="secondary-button"
-                onClick={() => setSelectedPDF(resource)}
+                href={`${API}/resources/${resource._id}/view#toolbar=1&navpanes=0&view=FitH`}
+                target="_blank"
+                rel="noopener noreferrer"
               >
-                View PDF
-              </button>
+                Open PDF Reader
+              </a>
 
               <a
                 className="primary-button"

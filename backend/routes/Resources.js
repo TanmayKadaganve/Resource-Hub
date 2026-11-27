@@ -6,6 +6,7 @@ import { Readable } from "stream";
 
 import Resource from "../models/Resource.js";
 import StudyPassage from "../models/StudyPassage.js";
+import AdminActivity from "../models/AdminActivity.js";
 import { indexPdf } from "../services/studyIndex.js";
 import { facultyAuth } from "../middleware/facultyAuth.js";
 
@@ -22,6 +23,7 @@ const allowedBranches = [
 
 const allowedResourceTypes = [
   "Notes",
+  "Syllabus",
   "Model QP",
   "PYQ",
   "Other",
@@ -362,6 +364,7 @@ router.post(
         fileId,
         fileSize: req.file.size,
       });
+      AdminActivity.create({ actorRole: "faculty", actor: branch, action: "upload", itemType: "resource", itemId: String(resource._id), description: `Uploaded ${resourceType}: ${safeName} (${branch})` }).catch((error) => console.error("Activity log error:", error.message));
 
       let indexing = "not-needed";
       if (resourceType === "Notes") {
@@ -467,6 +470,7 @@ router.delete(
       await bucket.delete(resource.fileId);
       await StudyPassage.deleteMany({ resourceId: resource._id });
       await Resource.findByIdAndDelete(id);
+      AdminActivity.create({ actorRole: "faculty", actor: facultyBranch, action: "delete", itemType: "resource", itemId: String(resource._id), description: `Deleted ${resource.resourceType}: ${resource.originalName} (${facultyBranch})` }).catch((error) => console.error("Activity log error:", error.message));
 
       return res.json({
         message: "Resource deleted successfully.",

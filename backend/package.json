@@ -11,6 +11,7 @@
     "start": "node server.js",
     "dev": "nodemon server.js",
     "seed:faculty": "node scripts/seedFaculty.js",
+  "seed:admin": "node scripts/seedAdmin.js",
     "reindex:notes": "node scripts/reindexNotes.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

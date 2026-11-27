@@ -50,6 +50,7 @@ export default function Navbar() {
     { label: "Labs", href: "/labs" },
     { label: "Calculator", href: "/calculator" },
     { label: "Study Assistant", href: "/study-assistant" },
+    // { label: "Notices", href: "/notices" },
   ];
 
   const guideLinks = [
@@ -70,7 +71,7 @@ export default function Navbar() {
   const moreLinks = [
     { label: "Academic Calendar", url: moreData.academicCalendar },
     { label: "Activity", url: moreData.activity },
-    { label: "Notice Board", url: moreData.noticeBoard },
+    { label: "Notice Board", href: "/notices" },
   ];
 
   function closeMenus() {
@@ -192,7 +193,16 @@ export default function Navbar() {
             {moreOpen && (
               <div className="rh-dropdown">
                 {moreLinks.map((link) =>
-                  link.url ? (
+                  link.href ? (
+                    <Link
+                      key={link.label}
+                      to={link.href}
+                      className="rh-dropdown-link"
+                      onClick={closeMenus}
+                    >
+                      {link.label}
+                    </Link>
+                  ) : link.url ? (
                     <a
                       key={link.label}
                       href={link.url}

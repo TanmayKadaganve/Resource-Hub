@@ -14,6 +14,9 @@ import LabsPage from "./pages/LabsPage";
 
 import CalculatorPage from "./pages/CalculatorPage";
 import StudyAssistantPage from "./pages/StudyAssistantPage";
+import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminDashboardPage from "./pages/AdminDashboardPage";
+import AcademicUpdatesPage from "./pages/AcademicUpdatesPage";
 
 function FacultyProtectedRoute({ children }) {
   const token = localStorage.getItem("facultyToken");
@@ -102,6 +105,10 @@ function App() {
         <Route path="/labs" element={<LabsPage />} />
 
         <Route path="/study-assistant" element={<StudyAssistantPage />} />
+
+        <Route path="/admin/login" element={<AdminLoginPage />} />
+        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+        <Route path="/notices" element={<AcademicUpdatesPage />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

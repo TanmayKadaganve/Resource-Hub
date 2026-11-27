@@ -3,6 +3,7 @@ import express from "express";
 import mongoose from "mongoose";
 
 import LabResource from "../models/LabResource.js";
+import AdminActivity from "../models/AdminActivity.js";
 import { facultyAuth } from "../middleware/facultyAuth.js";
 
 const router = express.Router();
@@ -117,6 +118,7 @@ router.post("/", facultyAuth, async (req, res) => {
       subject: subject.trim(),
       googleDriveLink: parsedLink.toString(),
     });
+    AdminActivity.create({ actorRole: "faculty", actor: facultyBranch, action: "upload", itemType: "lab resource", itemId: String(resource._id), description: `Added lab link: ${resource.subject} (${facultyBranch})` }).catch((error) => console.error("Activity log error:", error.message));
 
     return res.status(201).json({
       message: "Lab resource added successfully.",
@@ -156,6 +158,7 @@ router.delete("/:id", facultyAuth, async (req, res) => {
     }
 
     await LabResource.findByIdAndDelete(id);
+    AdminActivity.create({ actorRole: "faculty", actor: facultyBranch, action: "delete", itemType: "lab resource", itemId: String(resource._id), description: `Deleted lab link: ${resource.subject} (${facultyBranch})` }).catch((error) => console.error("Activity log error:", error.message));
 
     return res.json({
       message: "Lab resource deleted successfully.",

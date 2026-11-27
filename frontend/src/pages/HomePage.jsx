@@ -1,12 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import curriculum, { branches } from "../data/curriculum";
 import Navbar from "../Navbar";
 
 
 import AcademicNavigation from "../components/AcademicNavigation";
-
-import PDFReader from "../components/PDFReader";
 
 import ResourceList from "../components/ResourceList";
 import API from "../api";
@@ -24,7 +22,6 @@ function HomePage() {
   const [module, setModule] = useState(null);
   const [resources, setResources] = useState([]);
   const [search, setSearch] = useState("");
-  const [selectedPDF, setSelectedPDF] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -50,7 +47,6 @@ function HomePage() {
     setSubject(null);
     setModule(null);
     setResources([]);
-    setSelectedPDF(null);
     setSearch("");
     setError("");
   }
@@ -61,7 +57,6 @@ function HomePage() {
     setSubject(null);
     setModule(null);
     setResources([]);
-    setSelectedPDF(null);
     setError("");
   }
 
@@ -70,20 +65,17 @@ function HomePage() {
     setSubject(null);
     setModule(null);
     setResources([]);
-    setSelectedPDF(null);
   }
 
   function goToModules(nextSubject) {
     setSubject(nextSubject);
     setModule(null);
     setResources([]);
-    setSelectedPDF(null);
   }
 
   
 async function openModule(nextModule) {
   setModule(nextModule);
-  setSelectedPDF(null);
   setSearch("");
   setError("");
   setLoading(true);
@@ -117,14 +109,6 @@ async function openModule(nextModule) {
 }
 
 
-  // Refresh the current module's resources when the user returns
-  // from the PDF reader.
-  useEffect(() => {
-    if (!selectedPDF && module && subject && semester && branch) {
-      // Resources remain in state when the reader is closed.
-    }
-  }, [selectedPDF, module, subject, semester, branch]);
-
   const breadcrumb = [
     "Home",
     scheme + " Scheme",
@@ -133,10 +117,6 @@ async function openModule(nextModule) {
     subject?.name,
     module ? `Module ${module.number}` : null,
   ].filter(Boolean);
-
-  function goBackFromReader() {
-    setSelectedPDF(null);
-  }
 
   function renderBackButton(label, action) {
     return (
@@ -201,14 +181,7 @@ async function openModule(nextModule) {
           ))}
         </div>
 
-        {selectedPDF ? (
-  <PDFReader
-    selectedPDF={selectedPDF}
-    API={API}
-    renderBackButton={renderBackButton}
-    goBackFromReader={goBackFromReader}
-  />
-) : !module ? (
+        {!module ? (
   <AcademicNavigation
     scheme={scheme}
     branch={branch}
@@ -245,7 +218,6 @@ async function openModule(nextModule) {
     filteredResources={filteredResources}
     loading={loading}
     error={error}
-    setSelectedPDF={setSelectedPDF}
   />
 )}
 

@@ -9,6 +9,9 @@ import facultyAuthRoutes from "./routes/FacultyAuth.js";
 
 import labResourcesRouter from "./routes/LabResources.js";
 import studyAssistantRouter from "./routes/StudyAssistant.js";
+import adminAuthRoutes from "./routes/AdminAuth.js";
+import adminRoutes from "./routes/Admin.js";
+import academicContentRoutes from "./routes/AcademicContent.js";
 
 
 
@@ -58,6 +61,10 @@ async function startServer() {
     app.use("/api/faculty", facultyAuthRoutes);
 
     app.use("/api/study-assistant", studyAssistantRouter);
+
+    app.use("/api/admin/auth", adminAuthRoutes);
+    app.use("/api/admin", adminRoutes);
+    app.use("/api/content", academicContentRoutes);
 
     app.get("/api/health", (req, res) => {
       res.json({ status: "ok" });
