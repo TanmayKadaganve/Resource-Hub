@@ -12,12 +12,25 @@ const makeSubject = (name, code = "", credits = null) => ({
 
 const firstYear2022 = {
   1: [
-    makeSubject("Mathematics-1 for CSE Stream", "BMATS101"),
+    makeSubject("Mathematics-1 for CSE Stream", "BMATS101", 4),
+        makeSubject("Applied Physics for CSE stream", "BPHYS102", 3),
+        makeSubject("Principles of Programming Using C", "BPOPS103", 3),
+        makeSubject("Communicative English", "BENGK106", 1),
+        makeSubject("Indian Constitution", "BICOK107", 1),
+        makeSubject("Scientific Foundations of Health", "BSFHK158", 1),
+        makeSubject("Waste Management", "BETCK105F", 1),
+        
     // makeSubject("Applied Physics for CSE"),
   ],
   2: [
-    makeSubject("Mathematics-2 for CSE Stream", "BMATS201"),
-    // makeSubject("Applied Chemistry for CSE"),
+     makeSubject("Mathematics-2 for CSE Stream", "BMATS201", 4),
+        makeSubject("Applied Chemistry for CSE stream", "BCHES202", 3),
+        makeSubject("Computer Aided Engineering Drawing", "BCEDK203", 3),
+        makeSubject("Professional Writing Skills in English", "BPWSK206", 1),
+        makeSubject("Samskrutika Kannada", "BKSKK207", 1),
+        makeSubject("Innovation and Design Thinking", "BIDTK258", 1),
+        makeSubject("Introduction to Civil Engineering", "BESCK204A", 1),
+        makeSubject("Introduction to Python Programming","BPLCK205B",3),
   ],
 };
 
@@ -346,7 +359,7 @@ const curriculum = {
         makeSubject("Operating Systems", "1BCS304",3),
         makeSubject("Data Structures and Applications", "1BCS305",3),
         makeSubject("Object Oriented Programming with JAVA", "1BCS302 ",4),
-        makeSubject("Yoga", "BYOK359",1),
+        makeSubject("Physical Education", "BYOK359",1),
         makeSubject("Data Structures Lab", "1BCSL306",1),
         makeSubject("Project Management (with Git)", "1BCSL307A",1),
         makeSubject("Community Project / Societal Project (Project-Based Learning) ", "1BCP308",1)

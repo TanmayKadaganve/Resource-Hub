@@ -64,12 +64,7 @@ function PYQPage() {
       <main className="question-paper-page">
         <div className="question-paper-container">
           <div className="question-paper-header">
-            <p className="eyebrow">RESOURCE HUB</p>
             <h1>Previous Year Question Papers</h1>
-            <p>
-              Access previous year question papers organized by
-              scheme, branch and semester.
-            </p>
           </div>
 
           {selectedPDF ? (

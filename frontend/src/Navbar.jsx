@@ -1,17 +1,16 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import guideData from "./data/guideData";
-
 import moreData from "./data/moreData";
 
 import "./Navbar.css";
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [moreOpen, setMoreOpen] = useState(false);
-  const [guideOpen, setGuideOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [isFacultyLoggedIn, setIsFacultyLoggedIn] = useState(
@@ -50,33 +49,18 @@ export default function Navbar() {
     { label: "Labs", href: "/labs" },
     { label: "Calculator", href: "/calculator" },
     { label: "Study Assistant", href: "/study-assistant" },
-    // { label: "Notices", href: "/notices" },
-  ];
-
-  const guideLinks = [
-    {
-      label: "Revaluation Guide",
-      url: guideData.revaluation,
-    },
-    {
-      label: "SGPA/CGPA Guide",
-      url: guideData.sgpaCgpa,
-    },
-    {
-      label: "Internship Guide",
-      url: guideData.internship,
-    },
   ];
 
   const moreLinks = [
     { label: "Academic Calendar", url: moreData.academicCalendar },
-    { label: "Activity", url: moreData.activity },
     { label: "Notice Board", href: "/notices" },
+    { label: "Revaluation Guide", url: guideData.revaluation },
+    { label: "SGPA / CGPA Guide", url: guideData.sgpaCgpa },
+    { label: "Internship Guide", url: guideData.internship },
   ];
 
   function closeMenus() {
     setMoreOpen(false);
-    setGuideOpen(false);
     setMenuOpen(false);
   }
 
@@ -101,10 +85,7 @@ export default function Navbar() {
             RH
           </span>
 
-          <span>
-            <strong>Resource Hub</strong>
-            <small>BGMIT Academic Portal</small>
-          </span>
+          <span><strong>Resource Hub</strong></span>
         </Link>
 
         {/* Mobile menu button */}
@@ -125,55 +106,12 @@ export default function Navbar() {
               key={link.label}
               className="rh-nav-link"
               to={link.href}
+              aria-current={location.pathname === link.href ? "page" : undefined}
               onClick={closeMenus}
             >
               {link.label}
             </Link>
           ))}
-
-          {/* Guide dropdown */}
-          {/* Guide dropdown */}
-          <div className="rh-more">
-            <button
-              type="button"
-              className="rh-nav-link rh-more-button"
-              aria-expanded={guideOpen}
-              aria-haspopup="true"
-              onClick={() => {
-                setGuideOpen(!guideOpen);
-                setMoreOpen(false);
-              }}
-            >
-              Guide <span aria-hidden="true">{guideOpen ? "▴" : "▾"}</span>
-            </button>
-
-            {guideOpen && (
-              <div className="rh-dropdown">
-                {guideLinks.map((link) =>
-                  link.url ? (
-                    <a
-                      key={link.label}
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="rh-dropdown-link"
-                      onClick={closeMenus}
-                    >
-                      {link.label}
-                    </a>
-                  ) : (
-                    <span
-                      key={link.label}
-                      className="rh-dropdown-link"
-                      style={{ opacity: 0.5, cursor: "not-allowed" }}
-                    >
-                      {link.label} (Coming Soon)
-                    </span>
-                  ),
-                )}
-              </div>
-            )}
-          </div>
 
           {/* More dropdown */}
           <div className="rh-more">
@@ -184,7 +122,6 @@ export default function Navbar() {
               aria-haspopup="true"
               onClick={() => {
                 setMoreOpen(!moreOpen);
-                setGuideOpen(false);
               }}
             >
               More <span aria-hidden="true">{moreOpen ? "▴" : "▾"}</span>
@@ -213,15 +150,7 @@ export default function Navbar() {
                     >
                       {link.label}
                     </a>
-                  ) : (
-                    <span
-                      key={link.label}
-                      className="rh-dropdown-link"
-                      style={{ opacity: 0.5, cursor: "not-allowed" }}
-                    >
-                      {link.label} (Coming Soon)
-                    </span>
-                  ),
+                  ) : null,
                 )}
               </div>
             )}

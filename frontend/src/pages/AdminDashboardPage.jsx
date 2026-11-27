@@ -54,7 +54,10 @@ function AdminDashboardPage() {
     } catch (requestError) { setError(requestError.message); }
   }, [tab, page, search, branchFilter, typeFilter]);
 
-  useEffect(() => { refresh(); }, [refresh]);
+  useEffect(() => {
+    const timer = window.setTimeout(() => { void refresh(); }, 0);
+    return () => window.clearTimeout(timer);
+  }, [refresh]);
 
   if (!token()) return <Navigate to="/admin/login" replace />;
 

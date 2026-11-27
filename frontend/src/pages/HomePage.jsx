@@ -7,9 +7,9 @@ import Navbar from "../Navbar";
 import AcademicNavigation from "../components/AcademicNavigation";
 
 import ResourceList from "../components/ResourceList";
+import PDFReader from "../components/PDFReader";
 import API from "../api";
 
-// import Footer from "../components/Footer";
 
 import "../App.css";
 
@@ -22,6 +22,7 @@ function HomePage() {
   const [module, setModule] = useState(null);
   const [resources, setResources] = useState([]);
   const [search, setSearch] = useState("");
+  const [selectedPDF, setSelectedPDF] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -47,6 +48,7 @@ function HomePage() {
     setSubject(null);
     setModule(null);
     setResources([]);
+    setSelectedPDF(null);
     setSearch("");
     setError("");
   }
@@ -57,6 +59,7 @@ function HomePage() {
     setSubject(null);
     setModule(null);
     setResources([]);
+    setSelectedPDF(null);
     setError("");
   }
 
@@ -65,48 +68,45 @@ function HomePage() {
     setSubject(null);
     setModule(null);
     setResources([]);
+    setSelectedPDF(null);
   }
 
   function goToModules(nextSubject) {
     setSubject(nextSubject);
     setModule(null);
     setResources([]);
+    setSelectedPDF(null);
   }
 
-  
-async function openModule(nextModule) {
-  setModule(nextModule);
-  setSearch("");
-  setError("");
-  setLoading(true);
-  setResources([]);
+  async function openModule(nextModule) {
+    setModule(nextModule);
+    setSelectedPDF(null);
+    setSearch("");
+    setError("");
+    setLoading(true);
+    setResources([]);
 
-  try {
-    const params = new URLSearchParams({
-      subjectCode: subject.code,
-      resourceType: "Notes",
-      module: String(nextModule.number),
-    });
+    try {
+      const params = new URLSearchParams({
+        subjectCode: subject.code,
+        resourceType: "Notes",
+        module: String(nextModule.number),
+      });
+      const response = await fetch(`${API}/resources?${params}`);
+      const data = await response.json();
 
-    const response = await fetch(`${API}/resources?${params}`);
+      if (!response.ok) {
+        throw new Error(data.message || "Could not load resources.");
+      }
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.message || "Could not load resources.");
+      setResources(data.resources || []);
+    } catch (error) {
+      console.error("Resource fetching error:", error);
+      setError(error.message || "Unable to load resources.");
+    } finally {
+      setLoading(false);
     }
-
-    setResources(data.resources || []);
-  } catch (error) {
-    console.error("Resource fetching error:", error);
-
-    setError(
-      error.message || "Unable to load resources."
-    );
-  } finally {
-    setLoading(false);
   }
-}
 
 
   const breadcrumb = [
@@ -120,7 +120,7 @@ async function openModule(nextModule) {
 
   function renderBackButton(label, action) {
     return (
-      <button className="back-button" onClick={action}>
+      <button className="back-button" type="button" onClick={action}>
         ← {label}
       </button>
     );
@@ -129,33 +129,12 @@ async function openModule(nextModule) {
   return (
     <div className="app-shell">
       <Navbar/>
-      {/* <header className="navbar">
-        <button
-          className="brand"
-          onClick={() => resetToBranches()}
-          aria-label="Resource Hub home"
-        >
-          <span className="brand-icon">RH</span>
-          <span>
-            Resource <strong>Hub</strong>
-            <small>Academic Resource Portal</small>
-          </span>
-        </button>
-
-        <nav className="nav-links" aria-label="Main navigation">
-          <button onClick={() => resetToBranches()}>Home</button>
-          <a href="#curriculum">Browse Resources</a>
-          <a href="#footer">Contact</a>
-        </nav>
-      </header> */}
-
       <main className="main-content" id="curriculum">
         <section className="hero">
-          <p className="eyebrow">BGMIT · ACADEMIC RESOURCE PORTAL</p>
-          <h1>All Your Semester Notes in One Place.</h1>
+          <p className="eyebrow">BGMIT</p>
+          <h1>Find your semester resources.</h1>
           <p>
-            Find syllabus-related notes and study materials organized by
-            scheme, branch, semester, subject, and module.
+            Browse notes and academic materials by scheme, branch, semester, and subject.
           </p>
 
           <div className="scheme-switch" aria-label="Select curriculum scheme">
@@ -181,50 +160,55 @@ async function openModule(nextModule) {
           ))}
         </div>
 
-        {!module ? (
-  <AcademicNavigation
-    scheme={scheme}
-    branch={branch}
-    semester={semester}
-    subject={subject}
-    module={module}
-    branches={branches}
-    curriculum={curriculum}
-    semesters={semesters}
-    subjects={subjects}
-    openBranch={openBranch}
-    goToSubjects={goToSubjects}
-    goToModules={goToModules}
-    openModule={openModule}
-    resetToBranches={resetToBranches}
-    renderBackButton={renderBackButton}
-    setSemester={setSemester}
-    setModule={setModule}
-  />
-  
-) : (
-  <ResourceList
-    branch={branch}
-    semester={semester}
-    subject={subject}
-    module={module}
-    API={API}
-    renderBackButton={renderBackButton}
-    setModule={setModule}
-    setResources={setResources}
-    setError={setError}
-    search={search}
-    setSearch={setSearch}
-    filteredResources={filteredResources}
-    loading={loading}
-    error={error}
-  />
-)}
+        {selectedPDF ? (
+          <PDFReader
+            selectedPDF={selectedPDF}
+            API={API}
+            renderBackButton={renderBackButton}
+            goBackFromReader={() => setSelectedPDF(null)}
+          />
+        ) : !module ? (
+          <AcademicNavigation
+            scheme={scheme}
+            branch={branch}
+            semester={semester}
+            subject={subject}
+            module={module}
+            branches={branches}
+            curriculum={curriculum}
+            semesters={semesters}
+            subjects={subjects}
+            openBranch={openBranch}
+            goToSubjects={goToSubjects}
+            goToModules={goToModules}
+            openModule={openModule}
+            resetToBranches={resetToBranches}
+            renderBackButton={renderBackButton}
+            setSemester={setSemester}
+            setModule={setModule}
+          />
+        ) : (
+          <ResourceList
+            branch={branch}
+            semester={semester}
+            subject={subject}
+            module={module}
+            API={API}
+            renderBackButton={renderBackButton}
+            setModule={setModule}
+            setResources={setResources}
+            setError={setError}
+            search={search}
+            setSearch={setSearch}
+            filteredResources={filteredResources}
+            loading={loading}
+            error={error}
+            setSelectedPDF={setSelectedPDF}
+          />
+        )}
 
       </main>
 
-      {/* <Footer /> */}
-      
     </div>
   );
 

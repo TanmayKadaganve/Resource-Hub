@@ -38,6 +38,8 @@
 .study-note { margin: 10px 2px 0; color: #66758a; font-size: .82rem; }
 
 .study-chat { min-height: 500px; margin-top: 20px; display: flex; flex-direction: column; background: #fff; border: 1px solid #e4eaf2; border-radius: 16px; box-shadow: 0 8px 28px #183a5d0c; overflow: hidden; }
+.study-chat, .study-course { transition: box-shadow .2s ease, border-color .2s ease; }
+.study-chat:focus-within, .study-course:focus-within { border-color: #bad8e2; box-shadow: 0 12px 32px #183a5d12; }
 .study-chat-top { padding: 14px 20px; border-bottom: 1px solid #e9edf3; color: #63738a; font-size: .8rem; }
 .study-status-dot { display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: #42a88a; }
 .study-messages { flex: 1; min-height: 280px; max-height: 570px; overflow: auto; padding: 22px; }
@@ -65,10 +67,12 @@
 .study-prompt-footer > span { color: #7a899c; font-size: .72rem; }
 .study-prompt button { flex: 0 0 auto; padding: 10px 14px; border: 0; border-radius: 9px; background: #164b70; color: #fff; font: inherit; font-size: .82rem; font-weight: 700; cursor: pointer; }
 .study-prompt button:disabled { background: #a9b8c7; cursor: not-allowed; }
+.study-prompt button:not(:disabled):hover { background: #237a84; transform: translateY(-1px); }
 .study-prompt button span { padding-left: 4px; font-size: 1rem; }
 .study-error { margin: 0 0 10px; color: #b42318; font-size: .84rem; }
 
 @media (max-width: 760px) {
+  .study-header { height: 58px; padding: 0 16px; }
   .study-shell { padding: 30px 14px 42px; }
   .study-course { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 15px; gap: 12px; }
   .study-message { max-width: 96%; }
@@ -77,6 +81,7 @@
 
 @media (max-width: 420px) {
   .study-course { grid-template-columns: 1fr; }
-  .study-prompt-footer { align-items: flex-end; }
-  .study-prompt-footer > span { max-width: 56%; line-height: 1.4; }
+  .study-prompt-footer { flex-direction: column; align-items: stretch; }
+  .study-prompt-footer > span { max-width: none; }
+  .study-prompt button { width: 100%; min-height: 44px; }
 }

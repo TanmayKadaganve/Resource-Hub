@@ -11,6 +11,7 @@ function ResourceList({
   setModule,
   setResources,
   setError,
+  setSelectedPDF,
   search,
   setSearch,
   filteredResources,
@@ -124,10 +125,7 @@ function ResourceList({
 
           <h3>No resources available yet</h3>
 
-          <p>
-            PDFs uploaded for this exact scheme, subject, and module
-            will appear here.
-          </p>
+          <p>Try another module or check back later.</p>
         </div>
       )}
 
@@ -149,14 +147,13 @@ function ResourceList({
             </div>
 
             <div className="resource-actions">
-              <a
+              <button
                 className="secondary-button"
-                href={`${API}/resources/${resource._id}/view#toolbar=1&navpanes=0&view=FitH`}
-                target="_blank"
-                rel="noopener noreferrer"
+                type="button"
+                onClick={() => setSelectedPDF(resource)}
               >
-                Open PDF Reader
-              </a>
+                Read PDF
+              </button>
 
               <a
                 className="primary-button"

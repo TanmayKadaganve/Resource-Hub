@@ -67,9 +67,7 @@ function FacultyLogin() {
         <div className="faculty-login-header">
           <h1>Faculty Login</h1>
 
-          <p>
-            Sign in to manage academic resources
-          </p>
+          <p>Sign in to manage branch resources.</p>
         </div>
 
         <form onSubmit={handleLogin}>

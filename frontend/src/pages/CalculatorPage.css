@@ -13,6 +13,13 @@
     color: #182230;
 }
 
+.sgpa-report-heading { display: flex; justify-content: space-between; align-items: center; padding-bottom: 14px; border-bottom: 1px solid #dce5ef; color: #34506f; }
+.sgpa-report-heading span:first-child { font-weight: 800; color: #183b60; }
+.sgpa-report-score { margin: 12px 0 0; color: #009b69; font-size: 3.4rem; line-height: 1; text-align: center; }
+.sgpa-report-caption { margin: 4px 0 18px; color: #5d7189; text-align: center; text-transform: uppercase; }
+.sgpa-formula { margin-top: 18px; padding: 14px; border: 1px solid #dce5ef; border-radius: 12px; background: #f7f9fc; }
+.sgpa-formula p { margin: 6px 0 0; color: #425976; }
+
 .report-university {
     text-align: center;
     font: 700 1.25rem Georgia, serif;

@@ -142,9 +142,10 @@ function LabsPage() {
             <section className="labs-resources-section">
               <button
                 className="labs-back-button"
+                type="button"
                 onClick={() => setSelectedBranch(null)}
               >
-                ← Back to Branches
+                ← Back
               </button>
 
               <div className="labs-list-heading">

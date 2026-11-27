@@ -26,7 +26,7 @@ function AcademicNavigation({
           <div>
             <p className="eyebrow">EXPLORE CURRICULUM</p>
             <h2>Select your academic path</h2>
-            <p>Choose a branch or First Year to browse resources.</p>
+            <p>Choose your branch to continue.</p>
           </div>
         </div>
 
@@ -125,9 +125,7 @@ function AcademicNavigation({
 
             <h2>Subjects</h2>
 
-            <p>
-              Select a subject to explore its modules.
-            </p>
+            <p>Select a subject.</p>
           </div>
         </div>
 
@@ -149,10 +147,6 @@ function AcademicNavigation({
               </span>
 
               <h3>{item.name}</h3>
-
-              <p>
-                {item.modules.length} learning modules
-              </p>
 
               <span className="card-action">
                 View Modules →
@@ -181,9 +175,7 @@ function AcademicNavigation({
 
             <h2>Subject Modules</h2>
 
-            <p>
-              Choose a module to see its available PDFs.
-            </p>
+            <p>Choose a module.</p>
           </div>
         </div>
 
@@ -201,9 +193,6 @@ function AcademicNavigation({
               <span className="module-copy">
                 <strong>{item.title}</strong>
 
-                <small>
-                  View notes and learning resources
-                </small>
               </span>
 
               <span className="module-arrow">

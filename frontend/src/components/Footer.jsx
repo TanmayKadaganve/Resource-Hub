@@ -7,7 +7,7 @@ function Footer() {
       <div className="footer-brand">
         <strong>Resource Hub</strong>
         <p>
-          Centralized College Academic Resource Management System
+          Academic notes and resources for BGMIT students.
         </p>
       </div>
 

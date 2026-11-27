@@ -1,6 +1,43 @@
 
 @import "./styles/theme.css";
 
+:root {
+  font-family: Inter, "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #1c3048;
+  background: #f5f8fc;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  --navy: #12375b;
+  --blue: #267ca3;
+  --light-blue: #eaf4fa;
+  --white: #fff;
+  --text: #1c3048;
+  --muted: #718198;
+  --border: #e1e8f0;
+  --success: #187550;
+}
+
+* { box-sizing: border-box; }
+.ai-float-button { position: fixed; right: 24px; bottom: 24px; z-index: 1200; display: grid; place-items: center; width: 60px; height: 60px; border: 2px solid #fff; border-radius: 50%; background: #12375b; color: #fff; box-shadow: 0 6px 22px #12375b44; font-size: 15px; font-weight: 800; text-decoration: none; transition: transform .2s ease, background .2s ease; }
+.ai-float-button:hover { transform: translateY(-3px); background: #267ca3; }
+@media (max-width: 600px) { .ai-float-button { right: 16px; bottom: 16px; width: 54px; height: 54px; } }
+html { min-width: 320px; scroll-behavior: smooth; }
+body { min-width: 320px; margin: 0; background: #f5f8fc; }
+button, input, textarea, select { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid #75bad0; outline-offset: 3px; }
+::selection { background: #cdeaf1; color: #12375b; }
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes rise-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+  .main-content > * { animation: rise-in .42s ease both; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+
 #root {
   min-height: 100vh;
 }

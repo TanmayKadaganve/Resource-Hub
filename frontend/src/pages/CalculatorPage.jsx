@@ -6,8 +6,6 @@ import "./CalculatorPage.css";
 const rules = {
   2022: {
     status: "Verified from VTU 2022 regulations",
-    cieMinimum: 20,
-    seeMinimum: 17.5,
     totalMinimum: 40,
     grades: [
       { min: 90, grade: "O", points: 10 },
@@ -22,8 +20,6 @@ const rules = {
   },
   2025: {
     status: "Provisional: based on the VTU 2025 draft regulations",
-    cieMinimum: 20,
-    seeMinimum: 17.5,
     totalMinimum: 40,
     grades: [
       { min: 90, grade: "O", points: 10 },
@@ -39,20 +35,14 @@ const rules = {
 };
 
 function evaluateCourse(subject, marks, scheme) {
-  const cie = Number(marks.cie);
-  const see = Number(marks.see);
-  const total = cie + see;
+  const total = Number(marks.total);
   const policy = rules[scheme];
   const gradeRule = policy.grades.find((entry) => total >= entry.min);
-  const passed =
-    cie >= policy.cieMinimum &&
-    see >= policy.seeMinimum &&
-    total >= policy.totalMinimum;
+  const passed = total >= policy.totalMinimum;
 
   return {
     ...subject,
-    cie,
-    see,
+    marks: total,
     total,
     grade: passed ? gradeRule.grade : "F",
     points: passed ? gradeRule.points : 0,
@@ -83,7 +73,10 @@ function CalculatorPage() {
   const availableSemesters = branch
     ? Object.keys(curriculum[scheme]?.[branch] || {}).sort((a, b) => Number(a) - Number(b))
     : [];
-  const subjects = branch && semester ? getSubjects(scheme, branch, semester) : [];
+  const subjects = useMemo(
+    () => (branch && semester ? getSubjects(scheme, branch, semester) : []),
+    [scheme, branch, semester],
+  );
   const includedSubjects = subjects.filter((subject) => Number(subject.credits) > 0);
   const creditSetupComplete = subjects.length > 0 && subjects.every((subject) =>
     subject.credits !== null && subject.credits !== undefined && subject.credits !== "" &&
@@ -128,18 +121,18 @@ function CalculatorPage() {
     }
     const missing = subjects.find((subject, index) => {
       const row = marks[subjectKey(subject, index)];
-      return !row || row.cie === undefined || row.cie === "" || row.see === undefined || row.see === "";
+      return !row || row.total === undefined || row.total === "";
     });
     if (missing) {
-      setMessage(`Enter both CIE and SEE marks for ${missing.name}.`);
+      setMessage(`Enter total marks for ${missing.name}.`);
       return;
     }
     const invalid = subjects.find((subject, index) => {
       const row = marks[subjectKey(subject, index)];
-      return Number(row.cie) < 0 || Number(row.see) < 0;
+      return Number(row.total) < 0 || Number(row.total) > 100;
     });
     if (invalid) {
-      setMessage("CIE and SEE marks must be zero or greater.");
+      setMessage("Total marks must be between 0 and 100.");
       return;
     }
     const courses = completedCourses;
@@ -198,7 +191,7 @@ function CalculatorPage() {
                   <label>Semester<select value={semester} onChange={(event) => { setSemester(event.target.value); setMarks({}); setResult(null); setMessage(""); }} disabled={!branch}><option value="">Select semester</option>{availableSemesters.map((item) => <option key={item} value={item}>Semester {item}</option>)}</select></label>
                 </div>
                 {scheme === "2025" && <p className="calc-notice provisional">The accessible VTU 2025 regulation document is marked draft. This result is provisional until the final rules are confirmed.</p>}
-                {scheme === "2022" && <p className="calc-notice">2022 passing checks: CIE ≥ 20/50, SEE ≥ 17.5/50, and total ≥ 40/100.</p>}
+                <p className="calc-notice">Enter each subject’s combined CIE + SEE total, out of 100.</p>
               </section>
 
               {subjects.length > 0 && <>
@@ -211,7 +204,7 @@ function CalculatorPage() {
                   </div>
                 </section>
                 <section className="calc-section">
-                  <div className="calc-section-title"><span>03</span><div><h2>Subject marks</h2><p>Enter weighted CIE and SEE marks, each out of 50.</p></div></div>
+                  <div className="calc-section-title"><span>03</span><div><h2>Subject marks</h2><p>Enter the combined total for each subject, out of 100.</p></div></div>
                   {!creditSetupComplete && <p className="calc-notice warning">Credits are not set for all subjects yet. Add the third argument to each <code>makeSubject(name, code, credits)</code> entry in <code>curriculum.js</code>. Calculation stays disabled until then.</p>}
                   <div className="course-list">
                     {subjects.map((subject, index) => {
@@ -219,8 +212,7 @@ function CalculatorPage() {
                       const row = marks[key] || {};
                       return <article className="course-card" key={key}>
                         <div className="course-info"><span className="course-code">{subject.code || "COURSE"}</span><h3>{subject.name}</h3><span className="course-credit">{subject.credits === null || subject.credits === undefined || subject.credits === "" ? "Credits pending" : Number(subject.credits) === 0 ? "Non-credit course" : `${subject.credits} credits`}</span></div>
-                        <label>CIE marks<input type="number" min="0" step="0.5" value={row.cie ?? ""} onChange={(event) => updateMarks(subject, index, "cie", event.target.value)} inputMode="decimal" /></label>
-                        <label>SEE marks<input type="number" min="0" step="0.5" value={row.see ?? ""} onChange={(event) => updateMarks(subject, index, "see", event.target.value)} inputMode="decimal" /></label>
+                        <label>Total marks (0–100)<input type="number" min="0" max="100" step="0.5" value={row.total ?? ""} onChange={(event) => updateMarks(subject, index, "total", event.target.value)} inputMode="decimal" /></label>
                       </article>;
                     })}
                   </div>
@@ -228,13 +220,12 @@ function CalculatorPage() {
                 {message && <p className="calc-error" role="alert">{message}</p>}
                 <div className="calc-actions"><button type="submit" className="calc-submit" disabled={!creditSetupComplete}>Calculate SGPA</button><span>{policy.status}</span></div>
                 {result && <section className="grade-report" aria-live="polite">
-                  <div className="report-university">VISVESVARAYA TECHNOLOGICAL UNIVERSITY</div>
-                  <div className="report-subtitle">Jnana Sangama, Belagavi - 590018</div>
-                  <div className="report-degree">Bachelor of Engineering (B.E.)</div>
-                  <h2>GRADE CARD (CBCS)</h2>
+                  <div className="sgpa-report-heading"><span>VTU SGPA Report</span><span>{student.examPeriod}</span></div>
+                  <h2 className="sgpa-report-score">{result.sgpa.toFixed(2)}</h2>
+                  <p className="sgpa-report-caption">Final SGPA</p>
                   <div className="report-meta"><div><strong>Branch:</strong><span>{branch}</span></div><div><strong>Semester:</strong><span>{semester}{Number(semester) === 1 ? "st" : Number(semester) === 2 ? "nd" : Number(semester) === 3 ? "rd" : "th"} Semester</span></div><div><strong>Student:</strong><span>{student.name} ({student.usn})</span></div><div><strong>Examination:</strong><span>{student.examPeriod}</span></div></div>
-                  <div className="report-table-wrap"><table className="report-table"><thead><tr><th>Sl. No.</th><th>Code</th><th>Subject</th><th>Int</th><th>Ext</th><th>Total</th><th>Credits</th><th>Gr×Cr</th></tr></thead><tbody>{result.courses.map((course, index) => <tr key={`${course.code || course.name}-${index}`}><td>{index + 1}</td><td>{course.code || "—"}</td><td>{course.name}</td><td>{course.cie}</td><td>{course.see}</td><td>{course.total}</td><td>{course.credits}</td><td>{Number(course.credits) * course.points}</td></tr>)}<tr className="report-total"><td colSpan="5">Total</td><td>{result.courses.reduce((sum, course) => sum + course.total, 0)}</td><td>{result.totalCredits}</td><td>{result.creditPoints}</td></tr></tbody></table></div>
-                  <div className="report-summary"><div><strong>Semester Credits Earned:</strong><span>{result.courses.filter((course) => course.passed).reduce((sum, course) => sum + Number(course.credits), 0)} / {result.totalCredits}</span></div><div><strong>SGPA:</strong><b>{result.sgpa.toFixed(2)}</b></div><div className="report-status"><strong>Result:</strong><b>{result.courses.every((course) => course.passed) ? "PASS" : "FAIL"}</b></div></div>
+                  <div className="report-table-wrap"><table className="report-table"><thead><tr><th>Subject Code</th><th>Marks</th><th>Grade</th><th>Credits</th><th>Grade × Credit</th></tr></thead><tbody>{result.courses.map((course, index) => <tr key={`${course.code || course.name}-${index}`}><td>{course.code || course.name}</td><td>{course.total}</td><td>{course.grade}</td><td>{course.credits}</td><td>{Number(course.credits) * course.points}</td></tr>)}<tr className="report-total"><td>Total</td><td>{result.courses.reduce((sum, course) => sum + course.total, 0)}</td><td></td><td>{result.totalCredits}</td><td>{result.creditPoints}</td></tr></tbody></table></div>
+                  <div className="sgpa-formula"><strong>SGPA Formula</strong><p>SGPA = Σ(Course Credits × Grade Points) ÷ Σ(Course Credits) = {result.creditPoints} ÷ {result.totalCredits} = {result.sgpa.toFixed(2)}</p></div>
                   <div className="report-download"><button type="button" className="calc-submit" onClick={() => window.print()}>Download / Print Grade Card</button><span>In the print dialog, choose “Save as PDF” to download.</span></div>
                   <p className="report-disclaimer">Disclaimer: This is an unofficial, computer-generated estimate for reference only. It is not an official VTU marks card.</p>
                   <div className="report-signatures"><span>Student Signature</span><span>Principal</span></div>

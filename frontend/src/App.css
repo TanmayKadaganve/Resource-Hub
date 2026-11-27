@@ -232,6 +232,10 @@ a {
   box-shadow: 0 8px 24px rgb(16 42 86 / 7%);
 }
 
+.academic-card, .module-row, .resource-row, .primary-button, .secondary-button, .back-button {
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background-color .2s ease, color .2s ease;
+}
+
 .card-topline {
   display: flex;
   align-items: center;
@@ -290,12 +294,25 @@ a {
 }
 
 .back-button {
-  padding: 8px 0;
-  border: 0;
-  background: transparent;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 10px 16px;
+  border: 1px solid #cfdfeb;
+  border-radius: 10px;
+  background: #fff;
   color: var(--blue);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 700;
+  box-shadow: 0 3px 10px rgb(18 55 91 / 6%);
+}
+
+.back-button:hover, .back-button:focus-visible {
+  transform: translateY(-1px);
+  border-color: #9dc5d7;
+  background: #f6fbfd;
+  box-shadow: 0 7px 16px rgb(18 55 91 / 10%);
 }
 
 .module-list,
@@ -506,8 +523,8 @@ a {
 }
 
 .pdf-frame {
-  height: min(78vh, 900px);
-  min-height: 450px;
+  height: min(84vh, 1120px);
+  min-height: 620px;
   overflow: hidden;
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -520,6 +537,9 @@ a {
   border: 0;
   background: white;
 }
+
+.pdf-reader-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.pdf-frame-large { height: min(86vh, 1200px); min-height: 680px; box-shadow: 0 16px 42px rgb(18 55 91 / 12%); }
 
 .footer {
   display: flex;
@@ -546,6 +566,8 @@ a {
   color: var(--muted);
   font-size: 12px;
 }
+
+.footer-links { display: flex; flex-wrap: wrap; gap: 20px; }
 
 @media (max-width: 800px) {
   .navbar {
@@ -576,6 +598,8 @@ a {
     width: 100%;
     padding-left: 62px;
   }
+
+  .pdf-frame-large { min-height: 560px; height: calc(100dvh - 260px); }
 }
 
 @media (max-width: 520px) {
@@ -600,19 +624,33 @@ a {
     padding-left: 0;
   }
 
+  .resource-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
   .resource-actions > * {
     flex: 1;
   }
 
   .pdf-frame {
-    min-height: 380px;
-    height: 65vh;
+    min-height: 520px;
+    height: calc(100dvh - 260px);
   }
+
+  .pdf-reader-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .pdf-reader-actions > * { min-width: 0; padding-inline: 8px; }
 
   .footer {
     align-items: flex-start;
     flex-direction: column;
   }
+}
+
+@media (max-width: 640px) {
+  .question-paper-page, .syllabus-page, .labs-page { padding-left: 14px; padding-right: 14px; }
+  .question-paper-container, .syllabus-container { width: 100%; }
+  .question-paper-header h1, .syllabus-header h1 { font-size: clamp(1.8rem, 8vw, 2.4rem); }
+  .reader-heading { flex-direction: column; align-items: stretch; }
+  .resource-row { padding: 14px; }
+  .back-button { min-height: 50px; padding: 12px 17px; font-size: 15px; }
 }
 
 
@@ -673,8 +711,8 @@ a {
 
 .qp-option-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
 }
 
 .qp-option-card {
@@ -683,10 +721,10 @@ a {
   align-items: flex-start;
   justify-content: center;
   gap: 7px;
-  min-height: 85px;
-  padding: 18px;
+  min-height: 64px;
+  padding: 12px 14px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 9px;
   background: white;
   color: var(--navy);
   text-align: left;
@@ -951,7 +989,7 @@ a {
 .syllabus-card-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 22px;
+  gap: 16px;
 }
 
 .syllabus-card {
@@ -959,15 +997,15 @@ a {
   flex-direction: column;
   justify-content: space-between;
   min-width: 0;
-  padding: 27px;
+  padding: 20px;
   border: 1px solid var(--border);
-  border-radius: 22px;
+  border-radius: 14px;
   background: white;
   box-shadow: 0 5px 20px rgba(16, 42, 86, 0.05);
 }
 
 .syllabus-card-content {
-  min-height: 145px;
+  min-height: 54px;
 }
 
 .syllabus-badge {
@@ -982,7 +1020,7 @@ a {
 }
 
 .syllabus-card h3 {
-  margin: 19px 0 10px;
+  margin: 2px 0 10px;
   color: var(--navy);
   font-size: 19px;
 }
@@ -995,9 +1033,9 @@ a {
 
 .syllabus-card-actions {
   display: grid;
-  gap: 11px;
-  margin-top: 22px;
-  padding-top: 20px;
+  gap: 9px;
+  margin-top: 12px;
+  padding-top: 12px;
   border-top: 1px solid var(--border);
 }
 

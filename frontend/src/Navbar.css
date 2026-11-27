@@ -5,7 +5,8 @@
   z-index: 1000;
   background: #ffffff;
   border-bottom: 1px solid #dce6f2;
-  box-shadow: 0 3px 12px rgba(16, 43, 80, 0.06);
+  box-shadow: 0 5px 22px rgba(16, 43, 80, 0.07);
+  backdrop-filter: blur(14px);
 }
 
 .rh-navbar {
@@ -87,6 +88,11 @@
   outline: none;
 }
 
+.rh-nav-link[aria-current="page"] { background: #eaf3ff; color: #102b50; }
+
+.rh-nav-link { transition: background .18s ease, color .18s ease, transform .18s ease; }
+.rh-nav-link:hover { transform: translateY(-1px); }
+
 .rh-more {
   position: relative;
 }
@@ -144,6 +150,8 @@
 
   .rh-menu-toggle {
     display: block;
+    min-width: 44px;
+    min-height: 44px;
   }
 
   .rh-nav-links {
@@ -178,6 +186,9 @@
     box-shadow: none;
     background: #f5f9ff;
   }
+
+  .rh-nav-links { max-height: min(76dvh, 620px); overflow-y: auto; }
+  .rh-nav-link { min-height: 44px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

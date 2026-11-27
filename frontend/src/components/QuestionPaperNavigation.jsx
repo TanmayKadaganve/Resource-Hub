@@ -43,12 +43,8 @@ function QuestionPaperNavigation({
   return (
     <section className="qp-navigation">
       <div className="qp-navigation-heading">
-        <p className="eyebrow">ACADEMIC RESOURCES</p>
-        <h2>Select Your Academic Details</h2>
-        <p>
-          Choose your scheme, branch and semester to find the
-          available question papers.
-        </p>
+        <h2>Quick Select</h2>
+        <p>Choose scheme, branch, and semester.</p>
       </div>
 
       {/* Step 1: Scheme */}
@@ -78,29 +74,20 @@ function QuestionPaperNavigation({
           <h3>2. Select Branch</h3>
 
           <div className="qp-option-grid">
-            {branches.map((item) => {
-              const isAvailable = Boolean(
-                curriculum[scheme]?.[item]
-              );
-
-              return (
+            {branches
+              .filter((item) => curriculum[scheme]?.[item])
+              .map((item) => (
                 <button
                   key={item}
                   type="button"
-                  disabled={!isAvailable}
                   className={`qp-option-card ${
                     branch === item ? "active" : ""
                   }`}
                   onClick={() => handleBranchChange(item)}
                 >
                   <strong>{item}</strong>
-
-                  {!isAvailable && (
-                    <span>Not available yet</span>
-                  )}
                 </button>
-              );
-            })}
+              ))}
           </div>
         </div>
       )}
@@ -125,9 +112,7 @@ function QuestionPaperNavigation({
                 </button>
               ))}
             </div>
-          ) : (
-            <p>No semesters available for this selection.</p>
-          )}
+          ) : null}
         </div>
       )}
     </section>

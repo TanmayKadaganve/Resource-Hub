@@ -66,6 +66,8 @@
   box-shadow: 0 6px 18px rgba(16, 42, 86, 0.08);
 }
 
+.labs-branch-card, .labs-view-button, .labs-delete-button, .labs-resource-card { transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease; }
+
 .labs-branch-icon {
   width: 43px;
   height: 43px;
@@ -95,7 +97,12 @@
   background: transparent;
   border: none;
   color: #1769aa;
-  font-size: 14px;
+  min-height: 48px;
+  padding: 10px 15px;
+  border-radius: 9px;
+  background: #fff;
+  border: 1px solid #d8e2f0;
+  font-size: 15px;
   font-weight: 600;
   cursor: pointer;
   margin-bottom: 28px;
@@ -183,13 +190,15 @@
 
 .labs-view-button:hover {
   background: #1769aa;
+  transform: translateY(-1px);
 }
 
 .labs-delete-button {
   background: #fff1f1;
   color: #c62828;
   border: 1px solid #f3cccc;
-  padding: 9px 13px;
+  min-height: 46px;
+  padding: 11px 16px;
   border-radius: 7px;
   font-size: 13px;
   cursor: pointer;
@@ -249,8 +258,11 @@
 
   .labs-resource-actions {
     width: 100%;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .labs-view-button, .labs-delete-button { min-height: 44px; display: inline-flex; align-items: center; justify-content: center; }
 
   .labs-list-heading {
     align-items: flex-start;

@@ -25,18 +25,16 @@ function SyllabusPage() {
         <div className="syllabus-container">
           {/* Page Heading */}
           <div className="syllabus-header">
-            <p className="eyebrow">RESOURCE HUB</p>
             <h1>Engineering Syllabus</h1>
             <p>
-              Access branch-wise syllabus documents and year and stream-specific
-              PDFs.
+              Find syllabus documents by scheme and branch.
             </p>
           </div>
 
           {/* Scheme Selection */}
           <section className="scheme-selection">
             <h2>Select VTU Scheme</h2>
-            <p>Choose your academic scheme to view the syllabus.</p>
+            <p>Choose a scheme.</p>
 
             <div className="scheme-grid">
               {["2022", "2025"].map((scheme) => (
@@ -74,10 +72,7 @@ function SyllabusPage() {
                   return (
                     <article className="syllabus-card" key={item.branch}>
                       <div className="syllabus-card-content">
-                        <span className="syllabus-badge">CURRICULUM</span>
-
                         <h3>{item.branch}</h3>
-                        <p>{item.description}</p>
                       </div>
 
                       <div className="syllabus-card-actions">
@@ -110,7 +105,7 @@ function SyllabusPage() {
                         >
                           View Semester-wise Syllabus
                           <span>
-                            {expandedBranch === branchKey ? "⌃" : "⌄"}
+                            {expandedBranch === branchKey ? "▴" : "▾"}
                           </span>
                         </button>
 
@@ -142,7 +137,7 @@ function SyllabusPage() {
                               ))
                             ) : (
                               <p className="syllabus-empty-message">
-                                No semester-wise syllabus available.
+                                No documents available.
                               </p>
                             )}
                           </div>

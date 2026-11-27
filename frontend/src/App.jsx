@@ -17,6 +17,7 @@ import StudyAssistantPage from "./pages/StudyAssistantPage";
 import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboardPage from "./pages/AdminDashboardPage";
 import AcademicUpdatesPage from "./pages/AcademicUpdatesPage";
+import { Link } from "react-router-dom";
 
 function FacultyProtectedRoute({ children }) {
   const token = localStorage.getItem("facultyToken");
@@ -32,6 +33,7 @@ function FacultyProtectedRoute({ children }) {
 function App() {
   return (
     <BrowserRouter>
+      <Link className="ai-float-button" to="/study-assistant" aria-label="Open AI Study Assistant" title="AI Study Assistant"><span aria-hidden="true">🤖</span></Link>
       <Routes>
         <Route
           path="/"

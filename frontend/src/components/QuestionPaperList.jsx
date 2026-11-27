@@ -12,6 +12,7 @@ function QuestionPaperList({
   onBack,
 }) {
   const isPYQ = resourceType === "PYQ";
+  const heading = isPYQ ? "Previous Year Papers" : "Model Question Papers";
 
   const facultyToken = localStorage.getItem("facultyToken");
   const facultyRole = localStorage.getItem("facultyRole");
@@ -64,22 +65,13 @@ function QuestionPaperList({
         className="back-button"
         onClick={onBack}
       >
-        ← Change Academic Details
+        ← Back to selection
       </button>
 
       <div className="section-heading">
         <div>
-          <p className="eyebrow">
-            {isPYQ ? "PREVIOUS YEAR PAPERS" : "MODEL QUESTION PAPERS"}
-          </p>
-
-          <h2>
-            {isPYQ
-              ? "Previous Year Question Papers"
-              : "Model Question Papers"}
-          </h2>
-
-          <p>{resources.length} paper(s) available</p>
+          <h2>{heading}</h2>
+          <p>{resources.length} available</p>
         </div>
       </div>
 
@@ -95,10 +87,7 @@ function QuestionPaperList({
 
       {!loading && !error && resources.length === 0 && (
         <div className="empty-state">
-          <h3>No Question Papers Available</h3>
-          <p>
-            Question papers for this semester have not been uploaded yet.
-          </p>
+          <h3>No papers available</h3>
         </div>
       )}
 
@@ -112,26 +101,11 @@ function QuestionPaperList({
                 <div>
                   <h3>{resource.originalName}</h3>
 
-                  <p>
-                    Subject:{" "}
-                    <strong>{resource.subject || "Not available"}</strong>
-                  </p>
+                  {(resource.subject || resource.subjectCode) && <p>
+                    {resource.subject || ""}{resource.subject && resource.subjectCode ? " · " : ""}{resource.subjectCode || ""}
+                  </p>}
 
-                  <p>
-                    Subject Code:{" "}
-                    <strong>
-                      {resource.subjectCode || "Not available"}
-                    </strong>
-                  </p>
-
-                  {isPYQ && (
-                    <p>
-                      Question Paper Year:{" "}
-                      <strong>
-                        {resource.questionPaperYear || "Not available"}
-                      </strong>
-                    </p>
-                  )}
+                  {isPYQ && resource.questionPaperYear && <p>Year: <strong>{resource.questionPaperYear}</strong></p>}
 
                   <span>
                     {resource.fileSize
@@ -147,7 +121,7 @@ function QuestionPaperList({
                   className="primary-button"
                   onClick={() => onViewPDF(resource)}
                 >
-                  View PDF
+                  Open PDF
                 </button>
 
                 <a

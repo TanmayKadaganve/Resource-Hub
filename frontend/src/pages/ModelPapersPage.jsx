@@ -68,12 +68,7 @@ function ModelPapersPage() {
       <main className="question-paper-page">
         <div className="question-paper-container">
           <div className="question-paper-header">
-            <p className="eyebrow">RESOURCE HUB</p>
             <h1>Model Question Papers</h1>
-            <p>
-              Access model question papers organized by scheme,
-              branch and semester.
-            </p>
           </div>
 
           {selectedPDF ? (
