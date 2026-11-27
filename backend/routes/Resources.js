@@ -5,6 +5,8 @@ import mongoose from "mongoose";
 import { Readable } from "stream";
 
 import Resource from "../models/Resource.js";
+import StudyPassage from "../models/StudyPassage.js";
+import { indexPdf } from "../services/studyIndex.js";
 import { facultyAuth } from "../middleware/facultyAuth.js";
 
 const router = express.Router();
@@ -361,8 +363,26 @@ router.post(
         fileSize: req.file.size,
       });
 
+      let indexing = "not-needed";
+      if (resourceType === "Notes") {
+        try {
+          const result = await indexPdf(resource, req.file.buffer);
+          indexing = result.indexed ? "ready" : "no-text";
+        } catch (error) {
+          console.error("Note indexing failed:", error.message);
+          indexing = "failed";
+        }
+      }
+
       return res.status(201).json({
-        message: "PDF uploaded successfully.",
+        message: indexing === "ready"
+          ? "PDF uploaded and indexed for the Study Assistant."
+          : indexing === "no-text"
+            ? "PDF uploaded, but no selectable text was found for the Study Assistant. Scanned PDFs need OCR."
+            : indexing === "failed"
+              ? "PDF uploaded, but indexing failed. Check the backend logs and run the notes reindex command."
+              : "PDF uploaded successfully.",
+        indexing,
         resource: {
           _id: resource._id,
           subjectCode: resource.subjectCode,
@@ -445,6 +465,7 @@ router.delete(
       }
 
       await bucket.delete(resource.fileId);
+      await StudyPassage.deleteMany({ resourceId: resource._id });
       await Resource.findByIdAndDelete(id);
 
       return res.json({

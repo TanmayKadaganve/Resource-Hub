@@ -49,6 +49,7 @@ export default function Navbar() {
     { label: "PYQs", href: "/pyqs" },
     { label: "Labs", href: "/labs" },
     { label: "Calculator", href: "/calculator" },
+    { label: "Study Assistant", href: "/study-assistant" },
   ];
 
   const guideLinks = [

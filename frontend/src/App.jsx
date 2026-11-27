@@ -13,6 +13,7 @@ import SyllabusPage from "./pages/SyllabusPage";
 import LabsPage from "./pages/LabsPage";
 
 import CalculatorPage from "./pages/CalculatorPage";
+import StudyAssistantPage from "./pages/StudyAssistantPage";
 
 function FacultyProtectedRoute({ children }) {
   const token = localStorage.getItem("facultyToken");
@@ -99,6 +100,8 @@ function App() {
         />
 
         <Route path="/labs" element={<LabsPage />} />
+
+        <Route path="/study-assistant" element={<StudyAssistantPage />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

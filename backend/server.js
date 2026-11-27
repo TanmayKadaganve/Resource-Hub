@@ -8,6 +8,7 @@ import resourceRoutes from "./routes/Resources.js";
 import facultyAuthRoutes from "./routes/FacultyAuth.js";
 
 import labResourcesRouter from "./routes/LabResources.js";
+import studyAssistantRouter from "./routes/StudyAssistant.js";
 
 
 
@@ -55,6 +56,8 @@ async function startServer() {
     app.use("/api/lab-resources", labResourcesRouter);
 
     app.use("/api/faculty", facultyAuthRoutes);
+
+    app.use("/api/study-assistant", studyAssistantRouter);
 
     app.get("/api/health", (req, res) => {
       res.json({ status: "ok" });
